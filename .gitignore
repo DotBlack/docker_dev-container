@@ -1,3 +1,5 @@
 main
 /tmp
 *_templ.go
+go.mod
+go.sum
