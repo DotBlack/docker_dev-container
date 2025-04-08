@@ -1,0 +1,20 @@
+# https://github.com/air-verse/air?tab=readme-ov-file#installation-and-usage-for-docker-users-who-dont-want-to-use-air-image
+
+# defines a multi container service that could contain multiple services
+services:
+  # service-1: named service app
+  app:
+    # section defines how to build the image used for the application
+    build:
+      # defines the build context - just take the current location where the file is within
+      context: .
+      # defines the Dockerfile to use. It is located relative to the given context path "."
+      dockerfile: Dockerfile
+      # section defines port mapping
+    ports:
+      # container port 3000 (left side) can be accessed by the host on port 3000 (right side)
+      - 3000:3000
+      # section defines volume mappings
+    volumes:
+      # mount the current directory "." (left side) : to the location "app" within the container (right side)
+      - ./:/app
