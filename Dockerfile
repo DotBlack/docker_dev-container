@@ -38,10 +38,6 @@ RUN go install github.com/air-verse/air@latest
 # USAGE: offical Go language server - provides IDE-like features for Go development environments
 # https://pkg.go.dev/golang.org/x/tools/gopls#section-readme
 RUN go install golang.org/x/tools/gopls@latest
-# install latest "echo" version
-# USAGE: Used to provide a webserver
-#RUN go get github.com/labstack/echo/v4
-#RUN go get github.com/labstack/echo/v4/middleware
 # install latest "templ" version
 # USAGE: HTML serverside rendering
 RUN go install github.com/a-h/templ/cmd/templ@latest

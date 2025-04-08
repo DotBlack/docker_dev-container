@@ -13,16 +13,21 @@ This file genrates the necessary files go.mod and go.sum. <br/>
 
 2. Run the docker devcontainer:<br/>
 (Ctrl + Shift + P) --> Dev Containers: Rebuild and Reopen in Container. <br/>
+When the container runs, the app can be accessed.
 
-3. Run air to generate executeable and the server: <br/>
-Terminal --> air
+Visit the application:<br/>
+http://localhost:8080 <br/>
 
+3. The application can be updated by following actions: <br/>
+    - Run "templ generate" in the terminal <br/>
+    - Edit and save any go file <br/>
+--> The application will be rebuilt and can be visited by the link above. <br/>
+
+Optional: <br/>
 Run the application without container:<br/>
 docker compose up<br/>
 
 Description:<br/>
-Uses the docker-compose.yaml file to start one or multiple containers
-Add -d to the command to run in detached mode
+Uses the docker-compose.yaml file to start one or multiple containers <br/>
+Add -d to the command to run in detached mode <br/>
 
-Visit the application:<br/>
-http://localhost:8080 <br/>
