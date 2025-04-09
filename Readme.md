@@ -25,9 +25,9 @@ http://localhost:8080 <br/>
 
 Optional: <br/>
 Run the application without container:<br/>
-docker compose up<br/>
+docker compose -f docker-compose_local.yaml up<br/>
 
 Description:<br/>
-Uses the docker-compose.yaml file to start one or multiple containers <br/>
+Uses the docker-compose_local.yaml file to start one or multiple containers without dev-container.<br/>
 Add -d to the command to run in detached mode <br/>
 
