@@ -23,5 +23,5 @@ func main() {
 	app.GET("/", miscHandler.Base)
 
 	// Start the server
-	app.Logger.Fatal(app.Start(":8080"))
+	app.Logger.Fatal(app.Start(":3000"))
 }

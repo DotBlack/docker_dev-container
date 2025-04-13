@@ -6,24 +6,33 @@ templ Base() {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Sample Page</title>
+        <title>Homepage</title>
         <style>
-            body {
+            .default_headline {
                 font-family: Arial, sans-serif;
+                font-weight: bold;
+                font-size: 35px;
                 margin: 20px;
-                background-color: #238091;
+                color: #2708b4;
+                text-align: center;
             }
-            h1 {
-                color: #0005a1;
+            .default_text {
+                font-family: Arial, sans-serif;
+                font-size: 24px;
+                margin: 20px;
+                color: #a45d07;
+                text-align: center;
             }
-            p {
-                color: #8b003c;
+            body {
+                margin: 20px;
+                background-color: #9ba8bb;
             }
         </style>
     </head>
     <body>
-        <h1>Welcome to My Sample Page</h1>
-        <p>This is a simple HTML page...</p>
+        <div class="default_headline">Welcome to my Sample Page</div>
+        <div class="default_text">This is a simple HTML page...</div>
+        <div class="default_text">Test of auto deployment of the image!</div>
     </body>
     </html>
 }

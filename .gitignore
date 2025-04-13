@@ -3,3 +3,5 @@ main
 *_templ.go
 go.mod
 go.sum
+docker_dev-container-app.tar
+env

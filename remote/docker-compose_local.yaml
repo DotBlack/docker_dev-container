@@ -10,9 +10,5 @@ services:
     container_name: docker_dev-container
     # section defines port mapping
     ports:
-      # container port 8080 (left side) can be accessed by the host on port 8080 (right side)
-      - 8080:8080
-      # section defines volume mappings
-    volumes:
-      # mount the current directory "." (left side) : to the location "app" within the container (right side)
-      - ./:/app
+      # container port 3000 (left side) can be accessed by the host on port 3000 (right side)
+      - 3000:3000
