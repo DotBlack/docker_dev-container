@@ -5,3 +5,4 @@ go.mod
 go.sum
 docker_dev-container-app.tar
 env
+/database/data/*
