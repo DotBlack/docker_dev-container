@@ -1,11 +1,20 @@
+# check for executeable
+if [ ! -f ../app/main ]; then
+  echo "Executeable file "main" in path "/app" is missing."
+  echo "Rebuild the application and try again."
+  exit
+fi
+
 # get the dstIP to deploy to
 dstIP=""
 read -p "Enter IP-Adress to deploy to via SFTP: " dstIP
 dstUsr=""
 read -p "Enter Remote SSH username: " dstUsr
 # Export the latest image
-docker save -o $HOME/Desktop/DEV/docker_dev-container/remote/docker_dev-container-app.tar \
-    docker_dev-container-app docker_dev-container-app:latest
+docker save -o $HOME/Desktop/DEV/docker_dev-container/remote/application-app.tar \
+    application-app application-app:latest
+docker save -o $HOME/Desktop/DEV/docker_dev-container/remote/application-db.tar \
+    application-db application-db:latest
 
 # start a SSH session to delete the folder
 ssh ${dstUsr}@${dstIP} \
@@ -19,7 +28,9 @@ sftp="
 cd ../home/
 mkdir docker_dev-container
 cd docker_dev-container
-put \"$current_path\"/docker_dev-container-app.tar
+mkdir database
+put \"$current_path\"/application-app.tar
+put \"$current_path\"/application-db.tar
 put \"$current_path\"/docker-compose_local.yaml
 put \"$current_path\"/../Readme.md
 exit"
@@ -39,10 +50,14 @@ rm "$temp_sftp_file"
 # 5. start the image as container composition
 ssh ${dstUsr}@${dstIP} \
 'cd ../home/docker_dev-container
-docker container stop docker_dev-container
-docker container remove docker_dev-container
-docker image remove docker_dev-container-app
-docker image load -i docker_dev-container-app.tar
+docker container stop app
+docker container stop postgres
+docker container remove app
+docker container remove postgres
+docker image remove application-app
+docker image remove application-db
+docker image load -i application-app.tar
+docker image load -i application-db.tar
 docker compose -f docker-compose_local.yaml up -d
 exit'
 # Notify the user that the deployment is finished

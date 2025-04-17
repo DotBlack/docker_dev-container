@@ -1,8 +1,8 @@
 main
-/tmp
 *_templ.go
 go.mod
 go.sum
-docker_dev-container-app.tar
-env
+/remote/*.tar
 /database/data/*
+/app/tmp
+private

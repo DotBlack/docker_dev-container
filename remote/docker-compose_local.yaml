@@ -4,11 +4,35 @@
 services:
   # service-1: named service app
   app:
+    # container name
+    container_name: app
     # defines the name of the image to use to run the app
-    image: docker_dev-container-app
-    # defines the name of the container built based on the previous named image
-    container_name: docker_dev-container
-    # section defines port mapping
+    image: application-app
+      # section defines port mapping
     ports:
       # container port 3000 (left side) can be accessed by the host on port 3000 (right side)
       - 3000:3000
+  # service 2: Database ProstgreSQL
+  db:
+    # container name
+    container_name: postgres
+    # defines the name of the image to use to run the app
+    image: application-db
+    # container port 5001 (left side) can be accessed by the host on port 5432 (right side)
+    ports:
+      - 5001:5432
+    # mount the current directory "./database" (left side) : to the location "database" within the container (right side)
+    volumes:
+    - type: bind
+      source: ./database
+      target: /database
+    # set environment variables
+    environment:
+      # 1. username: postgres
+      - POSTGRES_USER=postgres
+      # 2. password: postgres
+      - POSTGRES_PASSWORD=postgres
+      # 3. databasename: db
+      - POSTGRES_DB=db
+      # 4. location for data
+      - PGDATA=./database/data

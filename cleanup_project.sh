@@ -1,7 +1,7 @@
 # remove all files that are generated
-rm go.mod
-rm go.sum
-rm -r tmp
-rm remote/docker_dev-container-app.tar
+rm app/go.mod
+rm app/go.sum
 rm app/*_templ.go
-rm main
+rm app/main
+rm -r tmp
+rm remote/*.tar

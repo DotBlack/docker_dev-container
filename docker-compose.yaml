@@ -9,7 +9,7 @@ services:
     # section defines how to build the image used for the application
     build:
       # defines the build context - just take the current location where the file is within
-      context: .
+      context: ./app
       # defines the Dockerfile to use. It is located relative to the given context path "."
       dockerfile: Dockerfile-app
       # section defines port mapping
@@ -19,7 +19,9 @@ services:
       # section defines volume mappings
     volumes:
       # mount the current directory "." (left side) : to the location "app" within the container (right side)
-      - ./:/app
+      - type: bind
+        source: ./app
+        target: /app
   # service 2: Database ProstgreSQL
   db:
     # container name
