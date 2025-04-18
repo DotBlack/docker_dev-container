@@ -7,7 +7,7 @@
     // the service the dockercontainer should connect to once running
     "service": "db",
     // the path the devloper starts once opening the dev-environment
-    "workspaceFolder": "/database",
+    "workspaceFolder": "/db",
     // https://containers.dev/implementors/features/
     // features are installed on top of the image in the dev-environment
     // NOTE: some features may not work with certain distros

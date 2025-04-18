@@ -28,7 +28,7 @@ sftp="
 cd ../home/
 mkdir docker_dev-container
 cd docker_dev-container
-mkdir database
+mkdir db
 put \"$current_path\"/application-app.tar
 put \"$current_path\"/application-db.tar
 put \"$current_path\"/docker-compose_local.yaml

@@ -3,7 +3,7 @@ main
 go.mod
 go.sum
 /remote/*.tar
-/database/data/*
+/db/data/*
 /app/tmp
-/database/tmp
+/db/tmp
 private

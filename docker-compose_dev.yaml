@@ -29,17 +29,17 @@ services:
     # section defines how to build the image used for the database
     build:
       # defines the build context - just take the current location where the file is within
-      context: ./database
+      context: ./db
       # defines the Dockerfile to use. It is located relative to the given context path "."
       dockerfile: Dockerfile-db  
     # container port 5001 (left side) can be accessed by the host on port 5432 (right side)
     ports:
       - 5001:5432
-    # mount the current directory "./database" (left side) : to the location "database" within the container (right side)
+    # mount the current directory "./db" (left side) : to the location "db" within the container (right side)
     volumes:
     - type: bind
-      source: ./database
-      target: /database
+      source: ./db
+      target: /db
     # set environment variables
     environment:
       # 1. username: postgres
@@ -49,7 +49,7 @@ services:
       # 3. databasename: db
       - POSTGRES_DB=db
       # 4. location for data
-      - PGDATA=./database/data
+      - PGDATA=./db/data
       # 5. username: client user
       - DB_CLIENT_USER=pg
       # 6. password: client user
