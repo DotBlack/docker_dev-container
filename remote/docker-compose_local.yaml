@@ -36,3 +36,7 @@ services:
       - POSTGRES_DB=db
       # 4. location for data
       - PGDATA=./database/data
+      # 5. username: client user
+      - DB_CLIENT_USER=pg
+      # 6. password: client user
+      - DB_CLIENT_PASSWORD=pgpw

@@ -3,5 +3,6 @@ rm app/go.mod
 rm app/go.sum
 rm app/*_templ.go
 rm app/main
-rm -r tmp
+rm -r /app/tmp
+rm -r /database/tmp
 rm remote/*.tar

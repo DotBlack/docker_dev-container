@@ -3,7 +3,7 @@
     // name for the dev-container
     "name": "docker_dev-container",
     // use the composefile located in the relative parent folder
-    "dockerComposeFile": ["../docker-compose.yaml"],
+    "dockerComposeFile": ["../../docker-compose_dev.yaml"],
     // the service the dockercontainer should connect to once running
     "service": "app",
     // the path the devloper starts once opening the dev-environment
@@ -39,5 +39,5 @@
   // https://containers.dev/implementors/json_reference/
   // postCreateCommand is the last command that runs at devcontainer setup
   // run init_app-devcontainer.sh to generate all *_templ.go - files
-  "postCreateCommand": ["sh", "./init_app-devcontainer.sh"]
+  "postCreateCommand": ["sh", "./init_app-container.sh"]
 }

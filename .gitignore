@@ -5,4 +5,5 @@ go.sum
 /remote/*.tar
 /database/data/*
 /app/tmp
+/database/tmp
 private

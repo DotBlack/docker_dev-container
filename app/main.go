@@ -1,6 +1,8 @@
 package main
 
 import (
+	"docker_dev-container/src"
+
 	"github.com/a-h/templ"
 	"github.com/labstack/echo/v4"
 )
@@ -8,7 +10,7 @@ import (
 type MiscHandler struct{}
 
 func (h MiscHandler) Base(c echo.Context) error {
-	return RenderComponent(c, Base())
+	return RenderComponent(c, src.Base())
 }
 
 func RenderComponent(c echo.Context, component templ.Component) error {

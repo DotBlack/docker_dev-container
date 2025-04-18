@@ -1,0 +1,43 @@
+// https://containers.dev/implementors/json_reference/
+{
+    // name for the dev-container
+    "name": "docker_dev-container",
+    // use the composefile located in the relative parent folder
+    "dockerComposeFile": ["../../docker-compose_dev.yaml"],
+    // the service the dockercontainer should connect to once running
+    "service": "db",
+    // the path the devloper starts once opening the dev-environment
+    "workspaceFolder": "/database",
+    // https://containers.dev/implementors/features/
+    // features are installed on top of the image in the dev-environment
+    // NOTE: some features may not work with certain distros
+    // For dev-container watch this: https://containers.dev/implementors/json_reference/
+    "features": {
+      // ... none necessary so far ...
+    },
+    // https://containers.dev/implementors/json_reference/
+    // Used to add product specific properties, defined in supporting tools.
+    // https://containers.dev/supporting
+    "customizations": {
+		"vscode": {
+            // To add VS-Code extensions --> search for it in extensions
+            //      --> right click on it --> "Copy Extension ID" --> paste it below
+            // These extensions will get installed once the dev-container gets opened
+            // Therefore (Ctrl + Shift + P) --> Dev Containers: Rebuild and Reopen in Container
+            // You need to install "Dev Container - Extension" therefore locally
+            // https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers
+			"extensions": [
+                // https://marketplace.visualstudio.com/items?itemName=golang.go
+                "golang.go",
+                // https://marketplace.visualstudio.com/items?itemName=a-h.templ
+                "a-h.templ",
+                // https://marketplace.visualstudio.com/items?itemName=naumovs.color-highlight
+                "naumovs.color-highlight"
+			]
+		}
+	},
+  // https://containers.dev/implementors/json_reference/
+  // postCreateCommand is the last command that runs at devcontainer setup
+  // run init_app-devcontainer.sh to generate all *_templ.go - files
+  "postCreateCommand": ["sh", "./init_db-container.sh"]
+}
