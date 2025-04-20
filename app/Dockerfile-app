@@ -1,6 +1,7 @@
 # use the alpine linux image as base
 FROM golang:1.23-alpine
 
+# Watch here for packages: https://pkgs.alpinelinux.org/packages
 # apk = alpine package manager
 # add = add package from git
 # --no-cache = don't keep a copy on the system to prevent downloading in future
@@ -10,6 +11,8 @@ RUN apk update
 RUN apk add git
 ## install go on alpine linux
 RUN apk add go
+## install musl-dev on alpine linux
+RUN apk add musl-dev
 
 # Configure Paths
 ## App-Path
@@ -40,7 +43,12 @@ RUN go install github.com/air-verse/air@latest
 RUN go install golang.org/x/tools/gopls@latest
 # install latest "templ" version
 # USAGE: HTML serverside rendering
+# https://templ.guide/quick-start/installation/
 RUN go install github.com/a-h/templ/cmd/templ@latest
+# install latest "delve" version
+# USAGE: GO debugging tool
+# https://github.com/go-delve/delve/tree/master/Documentation/installation
+RUN go install github.com/go-delve/delve/cmd/dlv@latest
 
 # copy sourcecode into the working directory
 COPY . .
@@ -48,6 +56,11 @@ COPY . .
 # provide port 3000 for access to the app
 EXPOSE 3000
 
-# run air as defined here
+# The following instruction makes the air tool run, when the container starts
 # https://github.com/air-verse/air?tab=readme-ov-file#installation-and-usage-for-docker-users-who-dont-want-to-use-air-image
+# CMD = Docker instruction itself, indicating the default command to execute
+# [ ] = brackets where the "executeable" formulation is placed
+# air = The executeable to run (for hotreload on filechanges - auto rebuild and restart)
+# -c = commandline-flag that is usually used to pass "config" or "configuration files"
+# .air.toml = path to the configuration file
 CMD [ "air", "-c", ".air.toml" ]

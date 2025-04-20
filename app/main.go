@@ -1,6 +1,7 @@
 package main
 
 import (
+	"docker_dev-container/repository"
 	"docker_dev-container/src"
 
 	"github.com/a-h/templ"
@@ -23,6 +24,8 @@ func main() {
 
 	miscHandler := MiscHandler{}
 	app.GET("/", miscHandler.Base)
+
+	repository.Connect()
 
 	// Start the server
 	app.Logger.Fatal(app.Start(":3000"))

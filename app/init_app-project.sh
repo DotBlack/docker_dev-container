@@ -1,3 +1,5 @@
+# go get dependencies watch here for full name: https://pkg.go.dev/
+
 # remove go.mod file
 rm go.mod
 # remove go.sum file
@@ -11,6 +13,9 @@ go get github.com/labstack/echo/v4/middleware
 # install latest "templ" version
 # USAGE: HTML serverside rendering
 go get github.com/a-h/templ/cmd/templ@latest
+# install latest "pgx" version
+# USAGE: Connecting to PostgreSQL-Database
+go get github.com/jackc/pgx/v5
 # Updates all modules that are dependencies the project to their latest versions.
 go get -u
 # cleanup

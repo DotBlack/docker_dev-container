@@ -38,6 +38,6 @@
 	},
   // https://containers.dev/implementors/json_reference/
   // postCreateCommand is the last command that runs at devcontainer setup
-  // run init_app-devcontainer.sh to generate all *_templ.go - files
-  "postCreateCommand": ["sh", "./init_app-container.sh"]
+  // run init_container.sh to generate all *_templ.go - files
+  "postCreateCommand": ["sh", "./.vscode/init_container.sh"]
 }

@@ -1,0 +1,22 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch App",
+            // The launch.json file tells VS Code how to initiate and manage debugging sessions for your project.
+            // When you set "type": "go", you are instructing VS Code to use the debugging capabilities provided by the Go extension.
+            // The Go extension includes a debug adapter. 
+            // This adapter acts as a bridge between VS Code's debugging UI and the actual Go debugger, which is Delve (dlv).
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}",
+            "env": {},
+            "args": [],
+            "preLaunchTask": "preLaunchTask",
+            // show the debug log in the debug console.
+            // default is writing to a file
+            "trace": "log"
+        }
+    ]
+}

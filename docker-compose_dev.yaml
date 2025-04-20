@@ -14,7 +14,7 @@ services:
       dockerfile: Dockerfile-app
       # section defines port mapping
     ports:
-      # container port 3000 (left side) can be accessed by the host on port 3000 (right side)
+      # site access from browser - container port 3000 (left side) can be accessed by the host on port 3000 (right side)
       - 3000:3000
       # section defines volume mappings
     volumes:
