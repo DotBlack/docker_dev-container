@@ -7,7 +7,7 @@ services:
     # container name
     container_name: app
     # defines the name of the image to use to run the app
-    image: application-app
+    image: application-app-prd
       # section defines port mapping
     ports:
       # container port 3000 (left side) can be accessed by the host on port 3000 (right side)
@@ -17,7 +17,7 @@ services:
     # container name
     container_name: postgres
     # defines the name of the image to use to run the app
-    image: application-db
+    image: application-db-prd
     # container port 5001 (left side) can be accessed by the host on port 5432 (right side)
     ports:
       - 5001:5432
@@ -33,6 +33,8 @@ services:
       # 2. password: postgres
       - POSTGRES_PASSWORD=postgres
       # 3. databasename: db
+      # POSTGRES_DB: This variable specifies the name of the database that will be created 
+      # as part of the PostgreSQL server startup. In this case, it is set to db.
       - POSTGRES_DB=db
       # 4. location for data
       - PGDATA=./db/data

@@ -1,11 +1,9 @@
-# connect to postgres container via shell
-docker exec -it postgres /bin/bash
-# login to database
-POSTGRES="psql -U ${POSTGRES_USER} ${POSTGRES_DB}"
-
 # create database client role
-echo "Creating database role: ${DB_CLIENT_USER}"
-$POSTGRES <<-EOSQL
-CREATE USER ${DB_CLIENT_USER} WITH PASSWORD '${DB_CLIENT_PASSWORD}';
-EOSQL
-echo "database role: ${DB_CLIENT_USER} created"
+psql -U ${POSTGRES_USER} -c "CREATE USER ${DB_CLIENT_USER} WITH PASSWORD '${DB_CLIENT_PASSWORD}';"
+
+# Check for errors
+if [ $? -ne 0 ]; then
+    echo "Error: Failed to create user ${DB_CLIENT_USER}."
+else
+    echo "User ${DB_CLIENT_USER} created successfully."
+fi

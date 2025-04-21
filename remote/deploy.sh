@@ -1,20 +1,15 @@
-# check for executeable
-if [ ! -f ../app/main ]; then
-  echo "Executeable file "main" in path "/app" is missing."
-  echo "Rebuild the application and try again."
-  exit
-fi
-
 # get the dstIP to deploy to
 dstIP=""
 read -p "Enter IP-Adress to deploy to via SFTP: " dstIP
 dstUsr=""
 read -p "Enter Remote SSH username: " dstUsr
 # Export the latest image
-docker save -o $HOME/Desktop/DEV/docker_dev-container/remote/application-app.tar \
-    application-app application-app:latest
-docker save -o $HOME/Desktop/DEV/docker_dev-container/remote/application-db.tar \
-    application-db application-db:latest
+docker build -f "../app/Dockerfile-app" --target prd -t application-app-prd ../app
+docker build -f "../db/Dockerfile-db" --target prd -t application-db-prd ../db
+docker save -o $HOME/Desktop/DEV/docker_dev-container/remote/application-app-prd.tar \
+    application-app-prd application-app-prd:latest
+docker save -o $HOME/Desktop/DEV/docker_dev-container/remote/application-db-prd.tar \
+    application-db-prd application-db-prd:latest
 
 # start a SSH session to delete the folder
 ssh ${dstUsr}@${dstIP} \
@@ -29,9 +24,9 @@ cd ../home/
 mkdir docker_dev-container
 cd docker_dev-container
 mkdir db
-put \"$current_path\"/application-app.tar
-put \"$current_path\"/application-db.tar
-put \"$current_path\"/docker-compose_local.yaml
+put \"$current_path\"/application-app-prd.tar
+put \"$current_path\"/application-db-prd.tar
+put \"$current_path\"/docker-compose_prd.yaml
 put \"$current_path\"/../Readme.md
 exit"
 # create temp file
@@ -54,11 +49,11 @@ docker container stop app
 docker container stop postgres
 docker container remove app
 docker container remove postgres
-docker image remove application-app
-docker image remove application-db
-docker image load -i application-app.tar
-docker image load -i application-db.tar
-docker compose -f docker-compose_local.yaml up -d
+docker image remove application-app-prd
+docker image remove application-db-prd
+docker image load -i application-app-prd.tar
+docker image load -i application-db-prd.tar
+docker compose -f docker-compose_prd.yaml up -d
 exit'
 # Notify the user that the deployment is finished
 echo "Deployment finished!"

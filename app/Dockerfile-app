@@ -1,5 +1,8 @@
+########## DEV IMAGE ##########
+
 # use the alpine linux image as base
-FROM golang:1.23-alpine
+# https://hub.docker.com/_/postgres
+FROM golang:1.23-alpine AS dev
 
 # Watch here for packages: https://pkgs.alpinelinux.org/packages
 # apk = alpine package manager
@@ -53,9 +56,6 @@ RUN go install github.com/go-delve/delve/cmd/dlv@latest
 # copy sourcecode into the working directory
 COPY . .
 
-# provide port 3000 for access to the app
-EXPOSE 3000
-
 # The following instruction makes the air tool run, when the container starts
 # https://github.com/air-verse/air?tab=readme-ov-file#installation-and-usage-for-docker-users-who-dont-want-to-use-air-image
 # CMD = Docker instruction itself, indicating the default command to execute
@@ -64,3 +64,15 @@ EXPOSE 3000
 # -c = commandline-flag that is usually used to pass "config" or "configuration files"
 # .air.toml = path to the configuration file
 CMD [ "air", "-c", ".air.toml" ]
+
+
+
+########## PRD IMAGE ##########
+
+# use the alpine linux image as base
+# https://hub.docker.com/_/postgres
+FROM golang:1.23-alpine AS prd
+# copy the executeable from the devstage into the production stage
+COPY --from=dev /app/main .
+# set the main application as the entrypoint
+ENTRYPOINT [ "./main" ]

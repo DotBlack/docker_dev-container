@@ -6,12 +6,16 @@ services:
   app:
     # container name
     container_name: app
+    # name for the image
+    image: application-app-dev
     # section defines how to build the image used for the application
     build:
       # defines the build context - just take the current location where the file is within
       context: ./app
       # defines the Dockerfile to use. It is located relative to the given context path "."
       dockerfile: Dockerfile-app
+      # target of the build as defined in the dockerfile
+      target: dev
       # section defines port mapping
     ports:
       # site access from browser - container port 3000 (left side) can be accessed by the host on port 3000 (right side)
@@ -26,12 +30,16 @@ services:
   db:
     # container name
     container_name: postgres
+    # name for the image
+    image: application-db-dev
     # section defines how to build the image used for the database
     build:
       # defines the build context - just take the current location where the file is within
       context: ./db
       # defines the Dockerfile to use. It is located relative to the given context path "."
-      dockerfile: Dockerfile-db  
+      dockerfile: Dockerfile-db
+      # target of the build as defined in the dockerfile
+      target: dev
     # container port 5001 (left side) can be accessed by the host on port 5432 (right side)
     ports:
       - 5001:5432
@@ -47,6 +55,8 @@ services:
       # 2. password: postgres
       - POSTGRES_PASSWORD=postgres
       # 3. databasename: db
+      # POSTGRES_DB: This variable specifies the name of the database that will be created 
+      # as part of the PostgreSQL server startup. In this case, it is set to db.
       - POSTGRES_DB=db
       # 4. location for data
       - PGDATA=./db/data
