@@ -1,0 +1,6 @@
+Connecting to the postgres database with root as postgres:
+    psql -U postgres
+
+Connecting to the postgres database with db user:
+    psql -h <host> -p <port> -d <database> -U postgres
+    psql -h localhost -p 5432 -d db -U pg

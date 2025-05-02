@@ -11,3 +11,10 @@ if [ $? -ne 0 ]; then
 else
     echo "Database ${POSTGRES_DB} initialized with tables successfully."
 fi
+
+# Copy the prepared config file into the data directory
+cp /db/config/postgresql.conf /db/data/postgresql.conf
+
+# TODO: edit port after startup for psql database in postgresql.conf
+# afterwards restart database service
+# check if possible with compose file

@@ -22,10 +22,10 @@ func main() {
 	// Create a new Echo instance
 	app := echo.New()
 
+	repository.Connect()
+
 	miscHandler := MiscHandler{}
 	app.GET("/", miscHandler.Base)
-
-	repository.Connect()
 
 	// Start the server
 	app.Logger.Fatal(app.Start(":3000"))

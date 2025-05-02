@@ -26,6 +26,12 @@ services:
       - type: bind
         source: ./app
         target: /app
+    # set environment variables
+    environment:
+      # 1. username: client user for db login
+      - DB_CLIENT_USER=${DB_CLIENT_USER}
+      # 2. password: client user for db login
+      - DB_CLIENT_PASSWORD=${DB_CLIENT_PASSWORD}
   # service 2: Database ProstgreSQL
   db:
     # container name
@@ -40,9 +46,9 @@ services:
       dockerfile: Dockerfile-db
       # target of the build as defined in the dockerfile
       target: dev
-    # container port 5001 (left side) can be accessed by the host on port 5432 (right side)
+    # container port 5432 (left side) can be accessed by the host on port 5432 (right side)
     ports:
-      - 5001:5432
+      - 5432:5432
     # mount the current directory "./db" (left side) : to the location "db" within the container (right side)
     volumes:
     - type: bind
@@ -61,6 +67,6 @@ services:
       # 4. location for data
       - PGDATA=./db/data
       # 5. username: client user
-      - DB_CLIENT_USER=pg
+      - DB_CLIENT_USER=${DB_CLIENT_USER}
       # 6. password: client user
-      - DB_CLIENT_PASSWORD=pgpw
+      - DB_CLIENT_PASSWORD=${DB_CLIENT_PASSWORD}
