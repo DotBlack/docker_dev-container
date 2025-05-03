@@ -16,15 +16,15 @@ FROM golang:1.23-alpine AS dev
 RUN apk update
 ## install postgres
 RUN apk add postgresql postgresql-client
+## install bash
+RUN apk add bash
 
 # CMD = Docker instruction itself, indicating the default command to execute
 # [ ] = brackets where the "executeable" formulation is placed
-# tail = Linux command that outputs the end of a file
-# -f = This option tells tail to "follow" the file, 
-#      meaning it will wait for new lines to be added and never exit.
-# /dev/null = This is a special file that discards all data written to it and 
-#      returns nothing when read from. It's like a black hole.
-CMD ["tail", "-f", "/dev/null"]
+# /config/run_postgres.sh = config file to run as container entrypoint
+COPY /config/run_postgres.sh /config/run_postgres.sh
+RUN chmod +x /config/run_postgres.sh
+CMD ["/bin/bash", "/config/run_postgres.sh"]
 
 
 ########## PRD IMAGE ##########

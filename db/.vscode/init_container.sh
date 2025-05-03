@@ -16,6 +16,7 @@ if [ -z "$(ls -A /db/data)" ]; then
   # Copy the prepared config file into the data directory
   echo "Replacing default postgres configuration file with prepared file."
   cp /db/config/postgresql.conf /db/data/postgresql.conf
+  cp /db/config/pg_hba.conf /db/data/pg_hba.conf
 else
   echo "Data folder is NOT empty."
   echo "Database is already initialized! ... nothing to do."
