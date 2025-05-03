@@ -1,6 +1,7 @@
-# The database itselfe is will be created with the database startup as defined in docker-compose.yaml
-# POSTGRES_DB: This variable specifies the name of the database that will be created 
-# as part of the PostgreSQL server startup. In this case, it is set to db.
+# create database
+psql -U ${POSTGRES_USER} -c "CREATE DATABASE ${POSTGRES_DB};"
+# grant rights to user
+psql -U ${POSTGRES_USER} -c "GRANT ALL PRIVILEGES ON DATABASE ${POSTGRES_DB} to ${DB_CLIENT_USER};"
 
 # init database tables
 psql -U ${POSTGRES_USER} -d ${POSTGRES_DB} -a -f "/db/config/02_init_tables.sql"
@@ -11,10 +12,3 @@ if [ $? -ne 0 ]; then
 else
     echo "Database ${POSTGRES_DB} initialized with tables successfully."
 fi
-
-# Copy the prepared config file into the data directory
-cp /db/config/postgresql.conf /db/data/postgresql.conf
-
-# TODO: edit port after startup for psql database in postgresql.conf
-# afterwards restart database service
-# check if possible with compose file

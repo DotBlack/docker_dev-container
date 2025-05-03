@@ -2,11 +2,37 @@
 
 # use the alpine postgres image as base
 # https://hub.docker.com/_/postgres
-FROM postgres:15 AS dev
+#FROM postgres:15 AS dev
+
+# use the alpine linux image as base
+# https://hub.docker.com/_/postgres
+FROM golang:1.23-alpine AS dev
+
+# Watch here for packages: https://pkgs.alpinelinux.org/packages
+# apk = alpine package manager
+# add = add package from git
+# --no-cache = don't keep a copy on the system to prevent downloading in future
+## run apk update
+RUN apk update
+## install postgres
+RUN apk add postgresql postgresql-client
+
+# CMD = Docker instruction itself, indicating the default command to execute
+# [ ] = brackets where the "executeable" formulation is placed
+# tail = Linux command that outputs the end of a file
+# -f = This option tells tail to "follow" the file, 
+#      meaning it will wait for new lines to be added and never exit.
+# /dev/null = This is a special file that discards all data written to it and 
+#      returns nothing when read from. It's like a black hole.
+CMD ["tail", "-f", "/dev/null"]
 
 
 ########## PRD IMAGE ##########
 
 # use the alpine postgres image as base
 # https://hub.docker.com/_/postgres
-FROM postgres:15 AS prd
+#FROM postgres:15 AS prd
+
+# use the alpine linux image as base
+# https://hub.docker.com/_/postgres
+FROM golang:1.23-alpine AS prd
