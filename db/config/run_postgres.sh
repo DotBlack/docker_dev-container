@@ -11,7 +11,7 @@ else
 fi
 
 # start postgres as new shell instance
-sh -c "su - postgres -c 'postgres -D /db/data &'"
+sh -c "su - postgres -c 'postgres -D \"$PGDATA\" &'"
 
 # Keep the container running
 # tail = Linux command that outputs the end of a file

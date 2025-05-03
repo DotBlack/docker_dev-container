@@ -1,1 +1,1 @@
-rm -r db/data/*
+rm -r $PGDATA*

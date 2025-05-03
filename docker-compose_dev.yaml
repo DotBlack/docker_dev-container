@@ -18,8 +18,8 @@ services:
       target: dev
       # section defines port mapping
     ports:
-      # site access from browser - container port 3000 (left side) can be accessed by the host on port 3000 (right side)
-      - 3000:3000
+      # site access from browser - container port (left side) can be accessed by the host on port (right side)
+      - ${APP_PORT}:${APP_PORT}
       # section defines volume mappings
     volumes:
       # mount the current directory "." (left side) : to the location "app" within the container (right side)
@@ -28,10 +28,14 @@ services:
         target: /app
     # set environment variables
     environment:
-      # 1. username: client user for db login
+      # 1. databasename: db
+      - POSTGRES_DB=db
+      # 2. username: client user for db login
       - DB_CLIENT_USER=${DB_CLIENT_USER}
-      # 2. password: client user for db login
+      # 3. password: client user for db login
       - DB_CLIENT_PASSWORD=${DB_CLIENT_PASSWORD}
+      # 4. port for database access
+      - DB_PORT=${DB_PORT}
   # service 2: Database ProstgreSQL
   db:
     # container name
@@ -46,9 +50,9 @@ services:
       dockerfile: Dockerfile-db
       # target of the build as defined in the dockerfile
       target: dev
-    # container port 5432 (left side) can be accessed by the host on port 5432 (right side)
+    # container port (left side) can be accessed by the host on port (right side)
     ports:
-      - 5432:5432
+      - ${DB_PORT}:${DB_PORT}
     # mount the current directory "./db" (left side) : to the location "db" within the container (right side)
     volumes:
     - type: bind
@@ -61,11 +65,9 @@ services:
       # 2. password: postgres
       - POSTGRES_PASSWORD=postgres
       # 3. databasename: db
-      # POSTGRES_DB: This variable specifies the name of the database that will be created 
-      # as part of the PostgreSQL server startup. In this case, it is set to db.
       - POSTGRES_DB=db
       # 4. location for data
-      - PGDATA=./db/data
+      - PGDATA=/db/data
       # 5. username: client user
       - DB_CLIENT_USER=${DB_CLIENT_USER}
       # 6. password: client user

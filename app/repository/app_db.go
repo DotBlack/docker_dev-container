@@ -9,8 +9,7 @@ import (
 )
 
 func Connect() {
-	// TODO: setup in prod dockerfile
-	databaseURL := "postgres://" + os.Getenv("DB_CLIENT_USER") + ":" + os.Getenv("DB_CLIENT_PASSWORD") + "@postgres:5432/" + "db"
+	databaseURL := "postgres://" + os.Getenv("DB_CLIENT_USER") + ":" + os.Getenv("DB_CLIENT_PASSWORD") + "@postgres:" + os.Getenv("DB_PORT") + "/" + os.Getenv("POSTGRES_DB")
 
 	conn, err := pgx.Connect(context.Background(), databaseURL)
 	if err != nil {

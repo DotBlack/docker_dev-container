@@ -1,5 +1,5 @@
 # check if data folder exists
-if [ -d /db/data ]; then
+if [ -d $PGDATA ]; then
   echo "Data folder exists."
 else
   echo "Data folder does not exist."
@@ -8,15 +8,15 @@ else
 fi
 
 # check if any content is stored in data folder
-if [ -z "$(ls -A /db/data)" ]; then
+if [ -z "$(ls -A $PGDATA)" ]; then
   echo "Data folder is empty"
   echo "Database is gonna be initialized now."
   # Initialize the database
-  su - postgres -c "initdb -D /db/data"
+  su - postgres -c "initdb -D $PGDATA"
   # Copy the prepared config file into the data directory
   echo "Replacing default postgres configuration file with prepared file."
-  cp /db/config/postgresql.conf /db/data/postgresql.conf
-  cp /db/config/pg_hba.conf /db/data/pg_hba.conf
+  cp /db/config/postgresql.conf $PGDATA/postgresql.conf
+  cp /db/config/pg_hba.conf $PGDATA/pg_hba.conf
 else
   echo "Data folder is NOT empty."
   echo "Database is already initialized! ... nothing to do."
@@ -35,7 +35,7 @@ else
 fi
 
 # start postgres as new shell instance
-sh -c "su - postgres -c 'postgres -D /db/data &'"
+sh -c "su - postgres -c 'postgres -D $PGDATA &'"
 
 # Wait until the database is ready
 until pg_isready -h "$HOST" -p "$PORT" -d "$POSTGRES_DB" -U "$POSTGRES_USER" 2>/dev/null; do
