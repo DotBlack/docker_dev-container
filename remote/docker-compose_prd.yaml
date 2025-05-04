@@ -8,7 +8,10 @@ services:
     container_name: app
     # defines the name of the image to use to run the app
     image: application-app-prd
-      # section defines port mapping
+    # wait for database to be started
+    depends_on:
+      - db
+    # section defines port mapping
     ports:
       # container port (left side) can be accessed by the host on port (right side)
       - ${APP_PORT:-3000}:${APP_PORT:-3000}

@@ -13,3 +13,5 @@ FROM postgres:15 AS prd
 
 COPY .vscode /db/.vscode
 COPY config /db/config
+
+CMD [ "/db/.vscode/init_container.sh" ]

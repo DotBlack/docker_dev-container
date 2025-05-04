@@ -1,3 +1,5 @@
+# create database
+psql -U ${POSTGRES_USER} -c "CREATE DATABASE ${POSTGRES_DB};"
 # grant rights to user
 psql -U ${POSTGRES_USER} -c "GRANT ALL PRIVILEGES ON DATABASE ${POSTGRES_DB} to ${DB_CLIENT_USER};"
 
