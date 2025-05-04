@@ -18,7 +18,8 @@ services:
       target: dev
     # wait for database to be ready
     depends_on:
-      - db
+      db:
+        condition: service_healthy # Wait until db is healthy before starting the app
     # section defines port mapping
     ports:
       # site access from browser - container port (left side) can be accessed by the host on port (right side)
@@ -64,16 +65,24 @@ services:
     # set environment variables
     environment:
       # 1. username: postgres
-      POSTGRES_USER: postgres
+      POSTGRES_USER: ${POSTGRES_USER}
       # 2. password: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       # 3. databasename: db
       # POSTGRES_DB: This variable specifies the name of the database that will be created 
       # as part of the PostgreSQL server startup. In this case, it is set to db.
-      POSTGRES_DB: db
+      POSTGRES_DB: ${POSTGRES_DB}
       # 4. location for data
       PGDATA: /db/data
       # 5. username: client user
       DB_CLIENT_USER: ${DB_CLIENT_USER}
       # 6. password: client user
       DB_CLIENT_PASSWORD: ${DB_CLIENT_PASSWORD}
+    # perform healthchecks before application that is depending on the database starts
+    # hint: It is neccessary because the database restarts after initial initialisation
+    healthcheck:
+      test: ["CMD", "sh", "-c", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB -h localhost"]
+      interval: 5s # Healthcheck runs every 5 seconds
+      retries: 5 # Retry 5 times before marking unhealthy
+      start_period: 30s # Wait 30 seconds before starting healthchecks
+      timeout: 5s # Timeout for each health check

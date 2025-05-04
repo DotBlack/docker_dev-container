@@ -7,9 +7,14 @@ if [ -d $PGDATA ]; then
   echo "Data folder exists."
 else
   echo "Data folder does not exist."
-  mkdir /db/data
+  mkdir $PGDATA
   echo "Data folder created."
 fi
+
+# change ownership of mount to user=postgres:group=postgres
+chown -R postgres:postgres $PGDATA
+# ensure the correct rights on the drive (rwx)
+chmod 700 $PGDATA
 
 # check if data folder is empty
 if [ -z "$(ls -A "$PGDATA")" ]; then
