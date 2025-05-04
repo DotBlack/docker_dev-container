@@ -1,9 +1,5 @@
 ########## DEV IMAGE ##########
 
-# use the alpine postgres image as base
-# https://hub.docker.com/_/postgres
-#FROM postgres:15 AS dev
-
 # use the alpine linux image as base
 # https://hub.docker.com/_/postgres
 FROM golang:1.23-alpine AS dev
@@ -29,10 +25,26 @@ CMD ["/bin/bash", "/config/run_postgres.sh"]
 
 ########## PRD IMAGE ##########
 
-# use the alpine postgres image as base
-# https://hub.docker.com/_/postgres
-#FROM postgres:15 AS prd
-
 # use the alpine linux image as base
 # https://hub.docker.com/_/postgres
 FROM golang:1.23-alpine AS prd
+
+# Watch here for packages: https://pkgs.alpinelinux.org/packages
+# apk = alpine package manager
+# add = add package from git
+# --no-cache = don't keep a copy on the system to prevent downloading in future
+## run apk update
+RUN apk update
+## install postgres
+RUN apk add postgresql postgresql-client
+## install bash
+RUN apk add bash
+
+# Copy the local folder /.vscode into the image folder /db/.vscode
+COPY /.vscode /db/.vscode
+# Copy the local folder /config into the image folder /db/config
+COPY /config /db/config
+
+# run the container
+RUN chmod +x /db/config/run_postgres.sh
+CMD ["/bin/bash", "/db/config/run_postgres.sh"]

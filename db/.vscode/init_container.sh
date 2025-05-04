@@ -7,6 +7,19 @@ else
   echo "Data folder created."
 fi
 
+# check if we are running the script in a docker environment
+is_docker=$1
+# if we are in the docker environment change permissions for the mounted volume
+if [ "$is_docker" = "true" ]; then
+    echo "Running inside Docker - changing permissions for mounted drive..."
+    # change ownership of mount to user=postgres:group=postgres
+    chown -R postgres:postgres ../data
+    # ensure the correct rights on the drive (rwx)
+    chmod 700 ../data
+else
+    echo "Not running inside Docker ... nothing to do."
+fi
+
 # check if any content is stored in data folder
 if [ -z "$(ls -A $PGDATA)" ]; then
   echo "Data folder is empty"
@@ -22,7 +35,7 @@ else
   echo "Database is already initialized! ... nothing to do."
 fi
 
-# check if data folder exists
+# check if postgres run folder exists
 if [ -d /run/postgresql ]; then
   echo "Postgresql run folder exists."
 else

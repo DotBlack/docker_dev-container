@@ -11,17 +11,17 @@ services:
       # section defines port mapping
     ports:
       # container port (left side) can be accessed by the host on port (right side)
-      - ${APP_PORT}:${APP_PORT}
+      - ${APP_PORT:-3000}:${APP_PORT:-3000}
     # set environment variables
     environment:
       # 1. databasename: db
-      - POSTGRES_DB=db
+      POSTGRES_DB: db
       # 2. username: client user for db login
-      - DB_CLIENT_USER=${DB_CLIENT_USER}
+      DB_CLIENT_USER: ${DB_CLIENT_USER}
       # 3. password: client user for db login
-      - DB_CLIENT_PASSWORD=${DB_CLIENT_PASSWORD}
+      DB_CLIENT_PASSWORD: ${DB_CLIENT_PASSWORD}
       # 4. port for database access
-      - DB_PORT=${DB_PORT}
+      DB_PORT: ${DB_PORT}
   # service 2: Database ProstgreSQL
   db:
     # container name
@@ -30,23 +30,27 @@ services:
     image: application-db-prd
     # container port (left side) can be accessed by the host on port (right side)
     ports:
-      - ${DB_PORT}:${DB_PORT}
-    # mount the current directory "./db" (left side) : to the location "db" within the container (right side)
+      - ${DB_PORT:-5432}:${DB_PORT:-5432}
+    # mount the directory "./db/data" (left side) : to the location "db/data" within the container (right side)
+    # HINT: For production we need to copy the folders ".vscode" and "config" into the image, because we can't
+    #       just mount them like we do that in the dev image
     volumes:
     - type: bind
-      source: ./db
-      target: /db
+      source: ./db/data
+      target: /db/data
+    #volumes:
+    #- ./db/data:/db/data
     # set environment variables
     environment:
       # 1. username: postgres
-      - POSTGRES_USER=postgres
+      POSTGRES_USER: postgres
       # 2. password: postgres
-      - POSTGRES_PASSWORD=postgres
+      POSTGRES_PASSWORD: postgres
       # 3. databasename: db
-      - POSTGRES_DB=db
+      POSTGRES_DB: db
       # 4. location for data
-      - PGDATA=/db/data
+      PGDATA: /db/data
       # 5. username: client user
-      - DB_CLIENT_USER=${DB_CLIENT_USER}
+      DB_CLIENT_USER: ${DB_CLIENT_USER}
       # 6. password: client user
-      - DB_CLIENT_PASSWORD=${DB_CLIENT_PASSWORD}
+      DB_CLIENT_PASSWORD: ${DB_CLIENT_PASSWORD}

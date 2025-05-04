@@ -27,6 +27,7 @@ mkdir db
 put \"$current_path\"/application-app-prd.tar
 put \"$current_path\"/application-db-prd.tar
 put \"$current_path\"/docker-compose_prd.yaml
+put \"$current_path\"/../.env
 put \"$current_path\"/../Readme.md
 exit"
 # create temp file
@@ -53,7 +54,7 @@ docker image remove application-app-prd
 docker image remove application-db-prd
 docker image load -i application-app-prd.tar
 docker image load -i application-db-prd.tar
-docker compose -f docker-compose_prd.yaml up -d
+docker compose -f docker-compose_prd.yaml --env-file .env up -d
 exit'
 # Notify the user that the deployment is finished
 echo "Deployment finished!"
