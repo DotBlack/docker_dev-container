@@ -8,7 +8,7 @@ services:
     container_name: app
     # defines the name of the image to use to run the app
     image: application-app-prd
-    # wait for database to be started
+    # wait for database to be ready
     depends_on:
       - db
     # section defines port mapping
