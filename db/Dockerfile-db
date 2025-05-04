@@ -2,49 +2,14 @@
 
 # use the alpine linux image as base
 # https://hub.docker.com/_/postgres
-FROM golang:1.23-alpine AS dev
-
-# Watch here for packages: https://pkgs.alpinelinux.org/packages
-# apk = alpine package manager
-# add = add package from git
-# --no-cache = don't keep a copy on the system to prevent downloading in future
-## run apk update
-RUN apk update
-## install postgres
-RUN apk add postgresql postgresql-client
-## install bash
-RUN apk add bash
-
-# CMD = Docker instruction itself, indicating the default command to execute
-# [ ] = brackets where the "executeable" formulation is placed
-# /config/run_postgres.sh = config file to run as container entrypoint
-COPY /config/run_postgres.sh /config/run_postgres.sh
-RUN chmod +x /config/run_postgres.sh
-CMD ["/bin/bash", "/config/run_postgres.sh"]
+FROM postgres:15 AS dev
 
 
 ########## PRD IMAGE ##########
 
 # use the alpine linux image as base
 # https://hub.docker.com/_/postgres
-FROM golang:1.23-alpine AS prd
+FROM postgres:15 AS prd
 
-# Watch here for packages: https://pkgs.alpinelinux.org/packages
-# apk = alpine package manager
-# add = add package from git
-# --no-cache = don't keep a copy on the system to prevent downloading in future
-## run apk update
-RUN apk update
-## install postgres
-RUN apk add postgresql postgresql-client
-## install bash
-RUN apk add bash
-
-# Copy the local folder /.vscode into the image folder /db/.vscode
-COPY /.vscode /db/.vscode
-# Copy the local folder /config into the image folder /db/config
-COPY /config /db/config
-
-# run the container
-RUN chmod +x /db/config/run_postgres.sh
-CMD ["/bin/bash", "/db/config/run_postgres.sh"]
+COPY .vscode /db/.vscode
+COPY config /db/config

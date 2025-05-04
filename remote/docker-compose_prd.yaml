@@ -38,8 +38,6 @@ services:
     - type: bind
       source: ./db/data
       target: /db/data
-    #volumes:
-    #- ./db/data:/db/data
     # set environment variables
     environment:
       # 1. username: postgres

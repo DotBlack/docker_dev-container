@@ -50,7 +50,7 @@ services:
       dockerfile: Dockerfile-db
       # target of the build as defined in the dockerfile
       target: dev
-    # container port (left side) can be accessed by the host on port (right side)
+    # container port 5432 (left side) can be accessed by the host on port 5432 (right side)
     ports:
       - ${DB_PORT:-5432}:${DB_PORT:-5432}
     # mount the current directory "./db" (left side) : to the location "db" within the container (right side)
@@ -65,9 +65,11 @@ services:
       # 2. password: postgres
       POSTGRES_PASSWORD: postgres
       # 3. databasename: db
+      # POSTGRES_DB: This variable specifies the name of the database that will be created 
+      # as part of the PostgreSQL server startup. In this case, it is set to db.
       POSTGRES_DB: db
       # 4. location for data
-      PGDATA: /db/data
+      PGDATA: ./db/data
       # 5. username: client user
       DB_CLIENT_USER: ${DB_CLIENT_USER}
       # 6. password: client user

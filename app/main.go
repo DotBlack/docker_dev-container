@@ -1,6 +1,7 @@
 package main
 
 import (
+	"docker_dev-container/repository"
 	"docker_dev-container/src"
 
 	"github.com/a-h/templ"
@@ -21,7 +22,7 @@ func main() {
 	// Create a new Echo instance
 	app := echo.New()
 
-	//repository.Connect()
+	repository.Connect()
 
 	miscHandler := MiscHandler{}
 	app.GET("/", miscHandler.Base)

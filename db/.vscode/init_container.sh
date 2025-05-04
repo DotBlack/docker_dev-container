@@ -7,55 +7,18 @@ else
   echo "Data folder created."
 fi
 
-# check if we are running the script in a docker environment
-is_docker=$1
-# if we are in the docker environment change permissions for the mounted volume
-if [ "$is_docker" = "true" ]; then
-    echo "Running inside Docker - changing permissions for mounted drive..."
-    # change ownership of mount to user=postgres:group=postgres
-    chown -R postgres:postgres ../data
-    # ensure the correct rights on the drive (rwx)
-    chmod 700 ../data
-else
-    echo "Not running inside Docker ... nothing to do."
-fi
-
-# check if any content is stored in data folder
-if [ -z "$(ls -A $PGDATA)" ]; then
-  echo "Data folder is empty"
-  echo "Database is gonna be initialized now."
-  # Initialize the database
-  su - postgres -c "initdb -D $PGDATA"
-  # Copy the prepared config file into the data directory
-  echo "Replacing default postgres configuration file with prepared file."
-  cp /db/config/postgresql.conf $PGDATA/postgresql.conf
-  cp /db/config/pg_hba.conf $PGDATA/pg_hba.conf
-else
-  echo "Data folder is NOT empty."
-  echo "Database is already initialized! ... nothing to do."
-fi
-
-# check if postgres run folder exists
-if [ -d /run/postgresql ]; then
-  echo "Postgresql run folder exists."
-else
-  echo "Postgresql run folder does not exist."
-  # create required path
-  mkdir -p /run/postgresql
-  # set rights for user postgres
-  chown postgres:postgres /run/postgresql
-  echo "Postgresql run folder created."
-fi
-
-# start postgres as new shell instance
-sh -c "su - postgres -c 'postgres -D $PGDATA &'"
-
 # Wait until the database is ready
 until pg_isready -h "$HOST" -p "$PORT" -d "$POSTGRES_DB" -U "$POSTGRES_USER" 2>/dev/null; do
   echo "Waiting for PostgreSQL to be ready..."
   sleep 5 # Adjust sleep interval as needed
 done
 echo "PostgreSQL is up and running!"
+
+# copy prepared config files from config to data
+cp /db/config/postgresql.conf /db/data/postgresql.conf
+cp /db/config/pg_hba.conf /db/data/pg_hba.conf
+# signal postgres to reload the config file
+sh -c "su - postgres -c 'pg_ctl reload -D \"/$PGDATA\"'"
 
 # setup database
 # The existence of DB_CLIENT_USER is taken as indicatior if the database was already set up
