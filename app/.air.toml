@@ -3,14 +3,14 @@
   # Command to build the app
   # Tells the Go compiler to build all .go files in the 
   # current directory and output the executeable with the name main.
-  cmd = "go build -gcflags=\"-N -l\" -o main *.go"
+  cmd = "templ generate && go build -gcflags=\"-N -l\" -o main *.go"
   # Specifies the name of the binary file produced by the buildstep
   # Air will run this executable after a successful build.
   bin = "./main"
   # Indicates the directory in with the build command will be executed
   dir = "."
   # The tool monitors all files with the .go extension for changes
-  include_ext = ["go"]
+  include_ext = ["go", "templ"]
   # Exclude files / No excluded paths
   exclude_dir = [""]
   # Command to run after build

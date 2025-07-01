@@ -1,3 +1,7 @@
+# run init_app-project.sh to ensure go.mod and go.sum are present
+sh /app/init_app-project.sh
+
+
 # generate all go files based on templ files
 
 # executes the tasks performed to initialize the container

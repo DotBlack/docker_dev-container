@@ -1,8 +1,7 @@
-########## DEV IMAGE ##########
-
 # use the alpine linux image as base
-# https://hub.docker.com/_/postgres
-FROM golang:1.23-alpine AS dev
+# https://hub.docker.com/_/alpine
+FROM golang:1.24-alpine AS dev
+# alpine package already ships go
 
 # Watch here for packages: https://pkgs.alpinelinux.org/packages
 # apk = alpine package manager
@@ -10,31 +9,11 @@ FROM golang:1.23-alpine AS dev
 # --no-cache = don't keep a copy on the system to prevent downloading in future
 ## run apk update
 RUN apk update
-## install git on alpine linux
-RUN apk add git
-## install go on alpine linux
-RUN apk add go
 ## install musl-dev on alpine linux
 RUN apk add musl-dev
 
-# Configure Paths
-## App-Path
-ENV APPPATH=/app
-# Go-Path
-ENV GOROOT=/usr/lib/go
-ENV GOPATH=/go
-ENV PATH=/go/bin:$PATH
-
-# organize code in the image inside the working-directory app
-WORKDIR ${APPPATH}
-
-# test for go.mod file || init the file only if first command succeeds
-RUN test -f go.mod || echo "You must run init_project.sh first!"
-# copy any go.* files into the image
-# (files go.mod and go.sum if present)
-COPY go.* ./
-# download go dependencies & perform cleanup on go dependencies
-RUN go mod download && go mod tidy
+# organize code in the iamge inside the working-directory app
+WORKDIR /app
 
 # install latest "air" version
 # USAGE: automated build and reload of the app in developement
@@ -53,9 +32,6 @@ RUN go install github.com/a-h/templ/cmd/templ@latest
 # https://github.com/go-delve/delve/tree/master/Documentation/installation
 RUN go install github.com/go-delve/delve/cmd/dlv@latest
 
-# copy sourcecode into the working directory
-COPY . .
-
 # The following instruction makes the air tool run, when the container starts
 # https://github.com/air-verse/air?tab=readme-ov-file#installation-and-usage-for-docker-users-who-dont-want-to-use-air-image
 # CMD = Docker instruction itself, indicating the default command to execute
@@ -64,15 +40,3 @@ COPY . .
 # -c = commandline-flag that is usually used to pass "config" or "configuration files"
 # .air.toml = path to the configuration file
 CMD [ "air", "-c", ".air.toml" ]
-
-
-
-########## PRD IMAGE ##########
-
-# use the alpine linux image as base
-# https://hub.docker.com/_/postgres
-FROM golang:1.23-alpine AS prd
-# copy the executeable from the devstage into the production stage
-COPY --from=dev /app/main .
-# set the main application as the entrypoint
-ENTRYPOINT [ "./main" ]

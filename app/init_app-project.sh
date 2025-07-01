@@ -1,5 +1,7 @@
 # go get dependencies watch here for full name: https://pkg.go.dev/
 
+# check if go.mod or go.sum is missing
+if [ ! -f go.mod ] || [ ! -f go.sum ]; then
 # remove go.mod file
 rm go.mod
 # remove go.sum file
@@ -23,3 +25,5 @@ go get -u
 # add missing dependencies
 # update sum.go
 go mod tidy
+# end if statement with fi
+fi
