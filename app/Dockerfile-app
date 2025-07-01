@@ -32,6 +32,12 @@ RUN go install github.com/a-h/templ/cmd/templ@latest
 # https://github.com/go-delve/delve/tree/master/Documentation/installation
 RUN go install github.com/go-delve/delve/cmd/dlv@latest
 
+# copy sourcecode into the working directory
+# this step is not necessary for the dev stage but
+# it needs to be done so that the prd stage can pick the 
+# executeable out of the dev stages image
+COPY . .
+
 # The following instruction makes the air tool run, when the container starts
 # https://github.com/air-verse/air?tab=readme-ov-file#installation-and-usage-for-docker-users-who-dont-want-to-use-air-image
 # CMD = Docker instruction itself, indicating the default command to execute
@@ -40,3 +46,14 @@ RUN go install github.com/go-delve/delve/cmd/dlv@latest
 # -c = commandline-flag that is usually used to pass "config" or "configuration files"
 # .air.toml = path to the configuration file
 CMD [ "air", "-c", ".air.toml" ]
+
+
+########## PRD IMAGE ##########
+
+# use the alpine linux image as base
+# https://hub.docker.com/_/postgres
+FROM golang:1.24-alpine AS prd
+# copy the executeable from the devstage into the production stage
+COPY --from=dev /app/main .
+# set the main application as the entrypoint
+ENTRYPOINT [ "./main" ]
