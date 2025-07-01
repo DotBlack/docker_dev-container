@@ -40,7 +40,7 @@ rm "$temp_sftp_file"
 
 # start a SSH session to redeploy the running container
 # 1. stop running container
-# 2. remove the stopped container
+# 2. remove the stopped container with prune
 # 3. remove the old image
 # 4. load the new image
 # 5. start the image as container composition
@@ -48,6 +48,7 @@ ssh ${dstUsr}@${dstIP} \
 'cd ../home/docker_dev-container
 docker container stop app
 docker container stop postgres
+docker container prune -f
 docker container remove app
 docker container remove postgres
 docker image remove application-app-prd
